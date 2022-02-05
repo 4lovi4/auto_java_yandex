@@ -5,6 +5,7 @@
 
 #Common
 driver/
+.*zip
 
 # Maven
 log/
