@@ -2,6 +2,7 @@ package ru.practicum.scooter.page_object;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import static com.codeborne.selenide.Selenide.page;
+import static com.codeborne.selenide.Selenide.switchTo;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
@@ -90,6 +91,7 @@ public class ScooterServiceMainPage {
 
     public YandexMainPage goToYandex() {
         yandexLogoRedirect.click();
+        switchTo().window("Яндекс");
         return page(YandexMainPage.class);
     }
 
@@ -100,6 +102,12 @@ public class ScooterServiceMainPage {
 
     public OrderCreatePage createOrderByUpperButton() {
         makeOrderButtonUpper.click();
+        return page(OrderCreatePage.class);
+    }
+
+    public OrderCreatePage createOrderByMidButton() {
+        makeOrderButtonMid.scrollTo();
+        makeOrderButtonMid.click();
         return page(OrderCreatePage.class);
     }
 
