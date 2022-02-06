@@ -1,3 +1,16 @@
+# Intellij
+.idea/
+*.iml
+*.iws
+
+#Common
+driver/
+build/
+
+# Maven
+log/
+target/
+
 # Compiled class file
 *.class
 
