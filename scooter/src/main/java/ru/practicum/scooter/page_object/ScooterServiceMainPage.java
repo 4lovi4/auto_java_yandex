@@ -6,7 +6,9 @@ import static com.codeborne.selenide.Selenide.switchTo;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
-
+/*
+Главная страница сервиса "https://qa-scooter.praktikum-services.ru/"
+ */
 
 public class ScooterServiceMainPage {
     public static final String URL = "https://qa-scooter.praktikum-services.ru/";

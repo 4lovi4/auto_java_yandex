@@ -2,23 +2,18 @@ package ru.practicum.scooter;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
-import org.junit.Before;
-import com.codeborne.selenide.Configuration;
 import static com.codeborne.selenide.Selenide.open;
 import ru.practicum.scooter.page_object.ScooterServiceMainPage;
 
-
+/*
+1-й тестовый сценарий: проверка выпадающих ответов в FAQ на главной странице
+ */
 
 public class TestImportantQuestionsPopUp {
-
-    /*  bin файл webdriver:
-        - для Яндекс Браузера yandexdriver.exe
-        - для простого Chrome chromedriver.exe
+    /*  Для ревью - убрал весь хардкод с бинарниками хром драйверов.
+        А также метод с анотацией @Before, где настраивался текущий путь до драйвера.
+        Путь до драйвера должен храниться в переменной окружения PATH/
     */
-    public static final String driverProperty = "webdriver.chrome.driver";
-    public static final String browserName = "chrome";
-    public static final String driverPath = "driver/linux/chromedriver";
-
     public static final String[] answers = {
             "Сутки — 400 рублей. Оплата курьеру — наличными или картой.",
             "Пока что у нас так: один заказ — один самокат. Если хотите покататься с друзьями, можете просто сделать несколько заказов — один за другим.",
@@ -29,13 +24,6 @@ public class TestImportantQuestionsPopUp {
             "Да, пока самокат не привезли. Штрафа не будет, объяснительной записки тоже не попросим. Все же свои.",
             "Да, обязательно. Всем самокатов! И Москве, и Московской области."
     };
-
-
-    @Before
-    public void setUp() {
-        Configuration.browser = browserName;
-        System.setProperty(driverProperty, driverPath);
-    }
 
     @Test
     public void testImportantQuestion1() {

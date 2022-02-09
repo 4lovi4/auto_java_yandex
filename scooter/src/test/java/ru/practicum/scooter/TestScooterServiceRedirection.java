@@ -1,8 +1,6 @@
 package ru.practicum.scooter;
 
-import com.codeborne.selenide.Configuration;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import ru.practicum.scooter.page_object.OrderCreatePage;
 import ru.practicum.scooter.page_object.OrderTrackPage;
@@ -19,21 +17,6 @@ import static com.codeborne.selenide.WebDriverRunner.url;
 
 public class TestScooterServiceRedirection {
 
-    /*  bin файл webdriver:
-        - для Яндекс Браузера yandexdriver.exe
-        - для простого Chrome chromedriver.exe
-    */
-    public static final String driverProperty = "webdriver.chrome.driver";
-    public static final String browserName = "chrome";
-    public static final String driverPath = "driver/linux/chromedriver";
-
-
-    @Before
-    public void setUp() {
-        Configuration.browser = browserName;
-        System.setProperty(driverProperty, driverPath);
-    }
-
     @Test
     public void checkYandexRedirectionFromMainPage() {
         ScooterServiceMainPage scooterMainPage = open(ScooterServiceMainPage.URL,
@@ -45,6 +28,8 @@ public class TestScooterServiceRedirection {
                 actualUrl, "https://yandex.ru/");
         Assert.assertEquals("Название страницы не Яндекс",
                 actualTitle, "Яндекс");
+        Assert.assertTrue("Элементы главной страницы Яндекс не отобразились",
+                yaRu.checkYandexLoaded());
     }
 
     @Test
@@ -73,8 +58,4 @@ public class TestScooterServiceRedirection {
         Assert.assertEquals("Название страницы не соответствует ожидаемому",
                 actualTitle, "undefined");
     }
-
-
-
-
 }
