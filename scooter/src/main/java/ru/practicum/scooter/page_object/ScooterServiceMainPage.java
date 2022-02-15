@@ -1,16 +1,21 @@
 package ru.practicum.scooter.page_object;
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import static com.codeborne.selenide.Selenide.page;
 import static com.codeborne.selenide.Selenide.switchTo;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selectors.byId;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import java.util.List;
 
 /*
 Главная страница сервиса "https://qa-scooter.praktikum-services.ru/"
-Версия 1.01 после ревью:
+Версия после ревью:
 * Добавил описание всех элементов главной страницы, не хватало блоков
 "Самокат на пару дней" и "Как это работает"
 * Элементы FAQ описал как коллекцию
@@ -19,10 +24,11 @@ import java.util.List;
 public class ScooterServiceMainPage {
     public static final String URL = "https://qa-scooter.praktikum-services.ru/";
 
-    //Ссылка на главе
+    //Ссылка на главую страницу Самокат
     @FindBy(how = How.XPATH, using = ".//a[@class='Header_LogoScooter__3lsAR']")
     private SelenideElement scooterLogoRedirect;
 
+    // Логотип ссылка Яндекс
     @FindBy(how = How.XPATH, using = ".//a[@href='//yandex.ru']")
     private SelenideElement yandexLogoRedirect;
 
@@ -88,56 +94,13 @@ public class ScooterServiceMainPage {
     @FindBy(how = How.XPATH, using = (".//div[text()='Вопросы о важном']"))
     private SelenideElement FAQHeader;
 
-    // Коллекции элементы FAQ
-    @FindBy(how = How.ID, using = "accordion__heading-0")
-    private SelenideElement question1;
+    // Коллекция вопросы FAQ
+    @FindBy(how = How.XPATH, using = ".//div[@class='accordion__button']")
+    private List<SelenideElement> importantQuestions;
 
-    @FindBy(how = How.ID, using = "accordion__heading-1")
-    private SelenideElement question2;
-
-    @FindBy(how = How.ID, using = "accordion__heading-2")
-    private SelenideElement question3;
-
-    @FindBy(how = How.ID, using = "accordion__heading-3")
-    private SelenideElement question4;
-
-    @FindBy(how = How.ID, using = "accordion__heading-4")
-    private SelenideElement question5;
-
-    @FindBy(how = How.ID, using = "accordion__heading-5")
-    private SelenideElement question6;
-
-    @FindBy(how = How.ID, using = "accordion__heading-6")
-    private SelenideElement question7;
-
-    @FindBy(how = How.ID, using = "accordion__heading-7")
-    private SelenideElement question8;
-
-    @FindBy(how = How.ID, using = "accordion__panel-0")
-    private SelenideElement hiddenAnswerDiv1;
-
-    @FindBy(how = How.ID, using = "accordion__panel-1")
-    private SelenideElement hiddenAnswerDiv2;
-
-    @FindBy(how = How.ID, using = "accordion__panel-2")
-    private SelenideElement hiddenAnswerDiv3;
-
-    @FindBy(how = How.ID, using = "accordion__panel-3")
-    private SelenideElement hiddenAnswerDiv4;
-
-    @FindBy(how = How.ID, using = "accordion__panel-4")
-    private SelenideElement hiddenAnswerDiv5;
-
-    @FindBy(how = How.ID, using = "accordion__panel-5")
-    private SelenideElement hiddenAnswerDiv6;
-
-    @FindBy(how = How.ID, using = "accordion__panel-6")
-    private SelenideElement hiddenAnswerDiv7;
-
-    @FindBy(how = How.ID, using = "accordion__panel-7")
-    private SelenideElement hiddenAnswerDiv8;
-
-
+    // Коллекция ответы FAQ
+    @FindBy(how = How.XPATH, using = ".//div[@class='accordion__panel']")
+    private List<SelenideElement> importantAnswers;
 
 
     public ScooterServiceMainPage submitCookiesOnStart() {
@@ -169,59 +132,14 @@ public class ScooterServiceMainPage {
         return page(OrderCreatePage.class);
     }
 
-    public String openHiddenAnswer1() {
-        question1.scrollTo();
-        question1.click();
-        hiddenAnswerDiv1.shouldBe(Condition.visible);
-        return hiddenAnswerDiv1.getText();
+    public String openHiddenAnswer(int questionButtonIndex) {
+        SelenideElement questionButton = this.importantQuestions.get(questionButtonIndex);
+        questionButton.scrollTo();
+        questionButton.click();
+
+        SelenideElement answerPanel = Selenide.$(byId("accordion__panel-" + questionButtonIndex));
+        answerPanel.shouldBe(Condition.visible);
+        return answerPanel.getText();
     }
 
-    public String openHiddenAnswer2() {
-        question2.scrollTo();
-        question2.click();
-        hiddenAnswerDiv2.shouldBe(Condition.visible);
-        return hiddenAnswerDiv2.getText();
-    }
-
-    public String openHiddenAnswer3() {
-        question3.scrollTo();
-        question3.click();
-        hiddenAnswerDiv3.shouldBe(Condition.visible);
-        return hiddenAnswerDiv3.getText();
-    }
-
-    public String openHiddenAnswer4() {
-        question4.scrollTo();
-        question4.click();
-        hiddenAnswerDiv4.shouldBe(Condition.visible);
-        return hiddenAnswerDiv4.getText();
-    }
-
-    public String openHiddenAnswer5() {
-        question5.scrollTo();
-        question5.click();
-        hiddenAnswerDiv5.should(Condition.visible);
-        return hiddenAnswerDiv5.getText();
-    }
-
-    public String openHiddenAnswer6() {
-        question6.scrollTo();
-        question6.click();
-        hiddenAnswerDiv6.shouldBe(Condition.visible);
-        return hiddenAnswerDiv6.getText();
-    }
-
-    public String openHiddenAnswer7() {
-        question7.scrollTo();
-        question7.click();
-        hiddenAnswerDiv7.shouldBe(Condition.visible);
-        return hiddenAnswerDiv7.getText();
-    }
-
-    public String openHiddenAnswer8() {
-        question8.scrollTo();
-        question8.click();
-        hiddenAnswerDiv8.shouldBe(Condition.visible);
-        return hiddenAnswerDiv8.getText();
-    }
 }
