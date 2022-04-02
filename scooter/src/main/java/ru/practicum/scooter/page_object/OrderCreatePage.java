@@ -196,7 +196,9 @@ public class OrderCreatePage {
             pickColorForScooter("black");
             pickColorForScooter("grey");
         }
-        else pickColorForScooter(color);
+        else {
+            pickColorForScooter(color);
+        }
         enterComment(commentText);
         clickMakeOrderButton();
         orderCreatedForm.should(Condition.visible);

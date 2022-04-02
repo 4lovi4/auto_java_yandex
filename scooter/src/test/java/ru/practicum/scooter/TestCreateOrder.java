@@ -1,9 +1,7 @@
 package ru.practicum.scooter;
 
-import com.codeborne.selenide.Configuration;
 import static com.codeborne.selenide.Selenide.open;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import ru.practicum.scooter.page_object.ScooterServiceMainPage;
 import ru.practicum.scooter.page_object.OrderCreatePage;
@@ -11,15 +9,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class TestCreateOrder {
+/*
+2-тестовый сценарий: полный флоу заказа скутера с 2-мя точками входа верзней и нижней кнопками "Заказать"
+*/
 
-    /*  bin файл webdriver:
-        - для Яндекс Браузера yandexdriver.exe
-        - для простого Chrome chromedriver.exe
-    */
-    public static final String driverProperty = "webdriver.chrome.driver";
-    public static final String browserName = "chrome";
-    public static final String driverPath = "driver/linux/chromedriver";
+public class TestCreateOrder {
 
     public static final List<Map<String, String>> customerData = Arrays.asList(
             Map.of("name", "Пётр", "surname", "Первый", "address", "Москва ул. Корректная 1",
@@ -29,11 +23,6 @@ public class TestCreateOrder {
                     "station", "Щёлковская", "phone", "89997001234", "term", "семеро суток",
                     "color", "", "comment", "Some comment"));
 
-    @Before
-    public void setUp() {
-        Configuration.browser = browserName;
-        System.setProperty(driverProperty, driverPath);
-    }
 
     @Test
     /*
