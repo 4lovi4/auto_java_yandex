@@ -4,8 +4,8 @@
 *.iws
 
 #Common
-driver/
-build/
+*/driver/
+*/build/
 
 # Maven
 log/
