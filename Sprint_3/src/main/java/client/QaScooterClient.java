@@ -1,17 +1,13 @@
 package client;
 
-import io.restassured.config.RedirectConfig;
-import io.restassured.config.RestAssuredConfig;
-import io.restassured.config.SSLConfig;
+import io.restassured.response.Response;
+import models.*;
 
-public class QaScooterClient {
+public class QaScooterClient extends QaScooterBaseClient{
 
-    private final String URL = "http://qa-scooter.praktikum-services.ru/";
+    private final String baseUrl = "http://qa-scooter.praktikum-services.ru/";
 
-    private final RestAssuredConfig config = RestAssuredConfig.newConfig()
-            .sslConfig(new SSLConfig().relaxedHTTPSValidation())
-            .redirect(new RedirectConfig().followRedirects(true));
-
-
-
+    public Response postLogin(CourierLogin login) {
+        return postRequest(baseUrl + "/api/v1/courier/login", login);
+    }
 }
