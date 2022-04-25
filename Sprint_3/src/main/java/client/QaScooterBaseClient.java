@@ -32,4 +32,9 @@ public class QaScooterBaseClient {
                 .put(uri, payload);
     }
 
+    protected  Response putRequest(String uri) {
+        return given().config(config)
+                .put(uri);
+    }
+
 }

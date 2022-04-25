@@ -25,4 +25,19 @@ public class QaScooterClient extends QaScooterBaseClient{
                 .body().as(CourierLogin.class);
     }
 
+    public Response finishOrder(Long id) {
+        return putRequest(baseUrl + "/api/v1/orders/finish/" + id.toString());
+    }
+
+    public  Response cancelOrder(Long track) {
+        String payload = String.format("{\"track\": %d}", track);
+        return putRequest(baseUrl + "/api/v1/orders/cancel", payload);
+    }
+
+    public OrderList listOrders() {
+        return getRequest(baseUrl + "/api/v1/orders\n")
+                .body().as(OrderList.class);
+    }
+
+
 }
