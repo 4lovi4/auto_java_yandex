@@ -19,7 +19,9 @@ public class QaScooterBaseClient {
 
     protected Response postRequest(String uri, Object payload) {
         return given().config(config)
-                .post(uri, payload);
+                .header("Content-Type", "application/json")
+                .body(payload)
+                .post(uri);
     }
 
     protected Response deleteRequest(String uri) {
@@ -29,7 +31,9 @@ public class QaScooterBaseClient {
 
     protected  Response putRequest(String uri, Object payload) {
         return given().config(config)
-                .put(uri, payload);
+                .header("Content-Type", "application/json")
+                .body(payload)
+                .put(uri);
     }
 
     protected  Response putRequest(String uri) {

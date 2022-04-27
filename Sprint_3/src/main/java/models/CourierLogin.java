@@ -5,6 +5,8 @@ public class CourierLogin {
     private String login;
     private String password;
     private String firstName;
+    private Long id;
+    private Long ordersCount;
 
     public CourierLogin(String login, String password) {
         this.login = login;
@@ -39,5 +41,21 @@ public class CourierLogin {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getOrdersCount() {
+        return ordersCount;
+    }
+
+    public void setOrdersCount(Long ordersCount) {
+        this.ordersCount = ordersCount;
     }
 }
