@@ -23,7 +23,7 @@ public class ScooterTestSteps {
     }
 
     public HashMap<String, String> createCourier(String login, String password, String name) {
-        HashMap<String, String> courierMap = new HashMap<String, String>();
+        HashMap<String, String> courierMap = new HashMap<>();
         Response response = client.createCourier(new CourierLogin(login, password, name));
         courierMap.put(login, password);
         response.then().assertThat()
@@ -33,7 +33,7 @@ public class ScooterTestSteps {
     }
 
     public HashMap<String, String> createCourier(String login, String password) {
-        HashMap<String, String> courierMap = new HashMap<String, String>();
+        HashMap<String, String> courierMap = new HashMap<>();
         Response response = client.createCourier(new CourierLogin(login, password));
         courierMap.put(login, password);
         response.then().assertThat()
@@ -46,4 +46,6 @@ public class ScooterTestSteps {
         CourierLogin response = client.postLogin(login);
         return response.getId();
     }
+
+
 }

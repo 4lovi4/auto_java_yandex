@@ -12,6 +12,10 @@ public class QaScooterClient extends QaScooterBaseClient{
                 .as(CourierLogin.class);
     }
 
+    public Response postLoginResponse(CourierLogin login) {
+        return postRequest(baseUrl + "/api/v1/courier/login", login);
+    }
+
     public Response createCourier(CourierLogin courierLogin) {
         return postRequest(baseUrl + "/api/v1/courier", courierLogin);
     }
@@ -23,6 +27,10 @@ public class QaScooterClient extends QaScooterBaseClient{
     public CourierLogin getCourierOrders(String id) {
         return getRequest(baseUrl + "/api/v1/courier/" + id + "/ordersCount")
                 .body().as(CourierLogin.class);
+    }
+
+    public Response getCourierOrdersResponse(String id) {
+        return getRequest(baseUrl + "/api/v1/courier/" + id + "/ordersCount");
     }
 
     public Response finishOrder(Long id) {
@@ -39,5 +47,8 @@ public class QaScooterClient extends QaScooterBaseClient{
                 .body().as(OrderList.class);
     }
 
+    public Response listOrdersResponse() {
+        return getRequest(baseUrl + "/api/v1/orders\n");
+    }
 
 }
