@@ -20,6 +20,7 @@ public class Order {
     private boolean inDelivery;
     private String courierFirstName;
     private String updatedAt;
+    private Long id;
 
     public Order(String firstName, String lastName, String address, String metroStation, String phone,
                  Long rentTime, String deliveryDate, String comment, List<String> color) {

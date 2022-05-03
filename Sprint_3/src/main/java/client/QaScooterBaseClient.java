@@ -4,6 +4,8 @@ import io.restassured.config.RedirectConfig;
 import io.restassured.config.RestAssuredConfig;
 import io.restassured.config.SSLConfig;
 import io.restassured.response.Response;
+import java.util.HashMap;
+
 import static io.restassured.RestAssured.given;
 
 public class QaScooterBaseClient {
@@ -13,8 +15,11 @@ public class QaScooterBaseClient {
             .redirect(new RedirectConfig().followRedirects(true));
 
     protected Response getRequest(String uri) {
-        return given().config(config)
-                .get(uri);
+        return given().config(config).get(uri);
+    }
+
+    protected Response getRequest(String uri, HashMap<String, Object> params) {
+        return given().config(config).queryParams(params).get(uri);
     }
 
     protected Response postRequest(String uri, Object payload) {
@@ -33,6 +38,13 @@ public class QaScooterBaseClient {
         return given().config(config)
                 .header("Content-Type", "application/json")
                 .body(payload)
+                .put(uri);
+    }
+
+    protected  Response putRequest(String uri, HashMap<String, Object> params) {
+        return given().config(config)
+                .header("Content-Type", "application/json")
+                .queryParams(params)
                 .put(uri);
     }
 

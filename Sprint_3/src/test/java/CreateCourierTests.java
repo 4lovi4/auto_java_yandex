@@ -9,9 +9,8 @@ import io.restassured.response.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
 
-public class CreateCourierTest {
+public class CreateCourierTests {
     private ScooterTestSteps testSteps = new ScooterTestSteps();
     private List<CourierLogin> testCourierLoginList = new ArrayList<CourierLogin>();
     private Long testCourierId;
@@ -83,7 +82,7 @@ public class CreateCourierTest {
         CourierLogin newCourier = new CourierLogin();
         newCourier.setPassword(testSteps.genRandomAlfaNumString());
         newCourier.setFirstName(testSteps.genRandomAlfaString());
-        Response createNewCourierResponse = testSteps.createCourier(testCourierLoginList.get(0));
+        Response createNewCourierResponse = testSteps.createCourier(newCourier);
         testSteps.checkCreateCourierWithoutRequiredParams(createNewCourierResponse);
     }
 
@@ -95,7 +94,7 @@ public class CreateCourierTest {
         CourierLogin newCourier = new CourierLogin();
         newCourier.setLogin(testSteps.genRandomAlfaString());
         newCourier.setFirstName(testSteps.genRandomAlfaString());
-        Response createNewCourierResponse = testSteps.createCourier(testCourierLoginList.get(0));
+        Response createNewCourierResponse = testSteps.createCourier(newCourier);
         testSteps.checkCreateCourierWithoutRequiredParams(createNewCourierResponse);
     }
 }

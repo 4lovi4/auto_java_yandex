@@ -8,6 +8,9 @@ public class CourierLogin {
     private Long id;
     private Long ordersCount;
 
+    public CourierLogin() {
+    };
+
     public CourierLogin(String login, String password) {
         this.login = login;
         this.password = password;
