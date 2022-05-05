@@ -1,37 +1,14 @@
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import models.*;
-import org.junit.Before;
-import org.junit.After;
 import org.junit.Test;
 import io.restassured.response.Response;
 
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class CreateCourierTests {
     private ScooterTestSteps testSteps = new ScooterTestSteps();
-    private List<CourierLogin> testCourierLoginList = new ArrayList<CourierLogin>();
-    private Long testCourierId;
 
-
-    @Before
-    public void prepareTest() {
-        CourierLogin testCourierLogin = new CourierLogin(testSteps.genRandomAlfaString(),
-                testSteps.genRandomAlfaNumString(), testSteps.genRandomAlfaString());
-        testSteps.createCourier(testCourierLogin);
-        Response loginResponse = testSteps.loginCourier(testCourierLogin);
-        testCourierId = Long.valueOf(loginResponse.then().extract().path("id").toString());
-        testCourierLogin.setId(testCourierId);
-        testCourierLoginList.add(testCourierLogin);
-    }
-
-    @After
-    public void cleanUp() {
-        for (CourierLogin testCourierLogin : testCourierLoginList)
-            testSteps.deleteCourier(testCourierLogin);
-    }
 
     @Test
     @DisplayName("Создание нового курьера по логину и паролю")
@@ -58,7 +35,10 @@ public class CreateCourierTests {
     @Description("Передаём учетные данные уже созданного заранее курьера -\n" +
             "ожидаем код ошибки 409 и сообщение {message: Этот логин уже используется}")
     public void errorCreateExistingCourier() {
-        Response createNewCourierResponse = testSteps.createCourier(testCourierLoginList.get(0));
+        CourierLogin testCourier = new CourierLogin(testSteps.genRandomAlfaString(),
+                testSteps.genRandomAlfaNumString(), testSteps.genRandomAlfaString());
+        testSteps.createCourier(testCourier);
+        Response createNewCourierResponse = testSteps.createCourier(testCourier);
         testSteps.checkCreateExistingCourierResponse(createNewCourierResponse);
     }
 
@@ -67,10 +47,13 @@ public class CreateCourierTests {
     @Description("Передаём новые учётные данные с уже сохранённым заранее логином курьера -\n" +
             "ожидаем код ошибки 409 и сообщение {message: Этот логин уже используется. Попробуйте другой.}")
     public void errorCreateCourierWithExistingLogin() {
-        CourierLogin newCourier = new CourierLogin(testCourierLoginList.get(0).getLogin(),
+        CourierLogin testCourier = new CourierLogin(testSteps.genRandomAlfaString(),
+                testSteps.genRandomAlfaNumString(), testSteps.genRandomAlfaString());
+        testSteps.createCourier(testCourier);
+        CourierLogin newCourier = new CourierLogin(testCourier.getLogin(),
                 testSteps.genRandomAlfaNumString(),
                 testSteps.genRandomAlfaString());
-        Response createNewCourierResponse = testSteps.createCourier(testCourierLoginList.get(0));
+        Response createNewCourierResponse = testSteps.createCourier(newCourier);
         testSteps.checkCreateExistingCourierResponse(createNewCourierResponse);
     }
 

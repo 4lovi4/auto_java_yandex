@@ -82,15 +82,12 @@ public class LoginCourierTests {
         testSteps.checkLoginWithoutRequiredParams(loginResponse);
     }
 
-    /*
-    Ошибка возвращается ошибка 504 Service unavailable если не указать пароль
-     */
     @Test
     @DisplayName("Ошибка авторизации без указания пароля")
     @Description("Не передаётся пароль курьера\n" +
             "Возвращается код 400 и сообщение {\"message\":  \"Недостаточно данных для входа\"}")
     public void errorWithoutPassword() {
-        testCourierLogin.setPassword(null);
+        testCourierLogin.setPassword("");
         Response loginResponse = testSteps.loginCourier(testCourierLogin);
         testSteps.checkLoginWithoutRequiredParams(loginResponse);
     }
