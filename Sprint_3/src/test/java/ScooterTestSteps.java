@@ -1,4 +1,5 @@
-import client.QaScooterClient;
+import client.CourierClient;
+import client.OrderClient;
 import models.CourierLogin;
 import models.OkResponse;
 import models.Order;
@@ -15,7 +16,9 @@ import java.util.List;
 
 public class ScooterTestSteps {
 
-    QaScooterClient client = new QaScooterClient();
+    CourierClient courierClient = new CourierClient();
+    OrderClient orderClient = new OrderClient();
+
 
     public String genRandomAlfaString() {
         return RandomStringUtils.randomAlphabetic(6, 16);
@@ -31,7 +34,7 @@ public class ScooterTestSteps {
 
     @Step("Создание курьера POST /api/v1/courier")
     public Response createCourier(CourierLogin courierLogin) {
-        return client.createCourier(courierLogin);
+        return courierClient.createCourier(courierLogin);
     }
 
     @Step("Проверка успешного ответа на создание курьера")
@@ -56,7 +59,7 @@ public class ScooterTestSteps {
 
     @Step("Вход курьера c логином POST /api/v1/courier/login")
     protected Response loginCourier(CourierLogin login) {
-        return client.postLogin(login);
+        return courierClient.postLogin(login);
     }
 
     @Step("Проверка успешной авторизации курьера - \n" +
@@ -84,12 +87,12 @@ public class ScooterTestSteps {
 
     @Step("Удаление курьера DELETE /api/v1/courier/:id")
     protected Response deleteCourier(CourierLogin login) {
-        return client.deleteCourier(login.getId());
+        return courierClient.deleteCourier(login.getId());
     }
 
     @Step("Успешное Создание заказа")
     protected Response createOrder(Order order) {
-        return client.createOrder(order);
+        return orderClient.createOrder(order);
     }
 
     @Step("Проверка ответа при создании ордера")
@@ -102,17 +105,17 @@ public class ScooterTestSteps {
 
     @Step("Вызов метода POST /api/v1/orders отмена заказа {trackId}")
     protected Response cancelOrder(Long trackId) {
-        return client.cancelOrder(trackId);
+        return orderClient.cancelOrder(trackId);
     }
 
     @Step("Получение списка заказов GET /api/v1/orders")
     protected Response listOrders() {
-        return client.listOrders();
+        return orderClient.listOrders();
     }
 
     @Step("Получение списка заказов по id курьера GET /api/v1/orders?courierId=")
     protected  Response listOrdersByCourierId(Long courierId) {
-        return client.listOrders(courierId);
+        return orderClient.listOrders(courierId);
     }
 
     @Step("Проверка ответа списка заказов")
