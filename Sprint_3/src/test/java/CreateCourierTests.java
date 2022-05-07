@@ -1,21 +1,30 @@
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import models.*;
+import org.junit.After;
 import org.junit.Test;
 import io.restassured.response.Response;
 
 
-
 public class CreateCourierTests {
     private ScooterTestSteps testSteps = new ScooterTestSteps();
+    private CourierLogin testCourier;
+    private boolean testCourierCreated;
 
+    @After
+    public void cleanUpCourier() {
+        if (testCourierCreated) testSteps.deleteCourier(testCourier);
+    }
 
     @Test
     @DisplayName("Создание нового курьера по логину и паролю")
     @Description("Передаём логин и пароль - ожидаем код 201 и ответ {ok: true}")
     public void shouldCreateCourierByLoginPassword() {
-        CourierLogin newCourier = new CourierLogin(testSteps.genRandomAlfaString(), testSteps.genRandomAlfaNumString());
-        Response createNewCourierResponse = testSteps.createCourier(newCourier);
+        testCourier = new CourierLogin(testSteps.genRandomAlfaString(), testSteps.genRandomAlfaNumString());
+        Response createNewCourierResponse = testSteps.createCourier(testCourier);
+        Long courierId = testSteps.loginCourier(testCourier).then().extract().as(CourierLogin.class).getId();
+        testCourier.setId(courierId);
+        testCourierCreated = true;
         testSteps.checkCreateCourierResponse(createNewCourierResponse);
     }
 
@@ -23,10 +32,13 @@ public class CreateCourierTests {
     @DisplayName("Создание нового курьера по логину, паролю и имени")
     @Description("Передаём логин, пароль и необязательный параметр name - ожидаем код 201 и ответ {ok: true}")
     public void shouldCreateCourierByLoginPasswordName() {
-        CourierLogin newCourier = new CourierLogin(testSteps.genRandomAlfaString(),
+        testCourier = new CourierLogin(testSteps.genRandomAlfaString(),
                 testSteps.genRandomAlfaNumString(),
                 testSteps.genRandomAlfaString());
-        Response createNewCourierResponse = testSteps.createCourier(newCourier);
+        Response createNewCourierResponse = testSteps.createCourier(testCourier);
+        Long courierId = testSteps.loginCourier(testCourier).then().extract().as(CourierLogin.class).getId();
+        testCourier.setId(courierId);
+        testCourierCreated = true;
         testSteps.checkCreateCourierResponse(createNewCourierResponse);
     }
 
@@ -35,10 +47,13 @@ public class CreateCourierTests {
     @Description("Передаём учетные данные уже созданного заранее курьера -\n" +
             "ожидаем код ошибки 409 и сообщение {message: Этот логин уже используется}")
     public void errorCreateExistingCourier() {
-        CourierLogin testCourier = new CourierLogin(testSteps.genRandomAlfaString(),
+        testCourier = new CourierLogin(testSteps.genRandomAlfaString(),
                 testSteps.genRandomAlfaNumString(), testSteps.genRandomAlfaString());
         testSteps.createCourier(testCourier);
         Response createNewCourierResponse = testSteps.createCourier(testCourier);
+        Long courierId = testSteps.loginCourier(testCourier).then().extract().as(CourierLogin.class).getId();
+        testCourier.setId(courierId);
+        testCourierCreated = true;
         testSteps.checkCreateExistingCourierResponse(createNewCourierResponse);
     }
 
@@ -47,9 +62,12 @@ public class CreateCourierTests {
     @Description("Передаём новые учётные данные с уже сохранённым заранее логином курьера -\n" +
             "ожидаем код ошибки 409 и сообщение {message: Этот логин уже используется. Попробуйте другой.}")
     public void errorCreateCourierWithExistingLogin() {
-        CourierLogin testCourier = new CourierLogin(testSteps.genRandomAlfaString(),
+        testCourier = new CourierLogin(testSteps.genRandomAlfaString(),
                 testSteps.genRandomAlfaNumString(), testSteps.genRandomAlfaString());
         testSteps.createCourier(testCourier);
+        Long courierId = testSteps.loginCourier(testCourier).then().extract().as(CourierLogin.class).getId();
+        testCourier.setId(courierId);
+        testCourierCreated = true;
         CourierLogin newCourier = new CourierLogin(testCourier.getLogin(),
                 testSteps.genRandomAlfaNumString(),
                 testSteps.genRandomAlfaString());
@@ -66,6 +84,7 @@ public class CreateCourierTests {
         newCourier.setPassword(testSteps.genRandomAlfaNumString());
         newCourier.setFirstName(testSteps.genRandomAlfaString());
         Response createNewCourierResponse = testSteps.createCourier(newCourier);
+        testCourierCreated = false;
         testSteps.checkCreateCourierWithoutRequiredParams(createNewCourierResponse);
     }
 
@@ -78,6 +97,7 @@ public class CreateCourierTests {
         newCourier.setLogin(testSteps.genRandomAlfaString());
         newCourier.setFirstName(testSteps.genRandomAlfaString());
         Response createNewCourierResponse = testSteps.createCourier(newCourier);
+        testCourierCreated = false;
         testSteps.checkCreateCourierWithoutRequiredParams(createNewCourierResponse);
     }
 }
