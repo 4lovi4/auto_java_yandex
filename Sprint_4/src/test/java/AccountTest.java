@@ -1,3 +1,4 @@
+import io.qameta.allure.Allure;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
@@ -25,17 +26,20 @@ public class AccountTest {
                 {"G V", true}, // Длина имени = 3 символа
                 {"Константин Нанолепс", true}, // Длина имени = 19 символов
                 {"АИ", false}, // Длина имени < 3 символов
-                {"Пантелеймон Апполинариевич", false}, // Длина имени < 3 символов
+                {"Пантелеймон Апполинариевич", false}, // Длина имени > 19 символов
                 {" Иван Драго", false}, //Пробел в начале
                 {"Том Кат ", false}, //Пробел в конце
-                {"Бильбо Бэггинс Младший", false}, //Пробнлов > 1
+                {"Бильбо Бэггинс Младший", false}, //Пробелов > 1
+                {"ЛараКрофт", false}, //Нет пробела
+                {"", false} //Пустая строка
         };
     }
 
     @Test
-    @Description("Тест проверки имени")
+    @Description("Тест проверки имени {accountName}")
     @DisplayName("Account метод checkNameToEmboss")
     public void checkNameToEmbossTests() {
+        Allure.step(accountName);
         Account account = new Account(accountName);
         assertTrue("Не верная проверка имени",
                 account.checkNameToEmboss() == expected);

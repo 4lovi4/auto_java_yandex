@@ -1,3 +1,4 @@
+import java.util.Objects;
 
 public class Account {
     private final String name;
@@ -11,11 +12,12 @@ public class Account {
              Этот метод должен проверять, что сохранённая через конструктор строка соответствует требованиям.
              Если строка удовлетворяет условиям, метод возвращает true, иначе — false.
          */
-        boolean result;
+        if (Objects.isNull(name)) return false;
 
-        result = (name.length() >= 3) &&
+        if (name.isEmpty()) return false;
+
+        return (name.length() >= 3) &&
                 (name.length() <= 19) &&
                 (name.matches("^\\S+\\s\\S+$"));
-        return result;
     }
 }
